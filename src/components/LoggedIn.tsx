@@ -1,6 +1,5 @@
 import { supabase } from "@/app/lib/supabase";
 import { getToken } from "@/app/utils/token";
-import axios from "axios";
 import { useState } from "react";
 
 export const LoggedIn = () => {
@@ -8,17 +7,15 @@ export const LoggedIn = () => {
 
   const getSecretData = () => {
     const token = getToken();
-    const data = axios.get(
-      "https://fastapi-supabase-production.up.railway.app/emojis",
-      {
-        method: "GET",
-        headers: {
-          // This is the token that we get from Supabase.
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
+    fetch("https://fastapi-supabase-production.up.railway.app/emojis", {
+      method: "GET",
+      headers: {
+        // This is the token that we get from Supabase.
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setData(data));
     console.log(data);
   };
 
