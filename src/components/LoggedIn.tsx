@@ -16,7 +16,6 @@ export const LoggedIn = () => {
     })
       .then((res) => res.json())
       .then((data) => setData(data));
-    console.log(data);
   };
 
   const handleSignOut = () => {
@@ -45,9 +44,7 @@ export const LoggedIn = () => {
         </button>
       </div>
       <div className="grid grid-cols-6">
-        {data.map((emoji) => (
-          <div key={emoji}>{emoji}</div>
-        ))}
+        {data && data.map((emoji) => <div key={emoji}>{emoji}</div>)}
       </div>
     </>
   );
