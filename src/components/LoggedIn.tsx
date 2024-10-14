@@ -46,7 +46,7 @@ export const LoggedIn = () => {
       </div>
       <div className="grid grid-cols-6">
         {data.map((emoji) => (
-          <div>{emoji}</div>
+          <div key={emoji}>{emoji}</div>
         ))}
       </div>
     </>
