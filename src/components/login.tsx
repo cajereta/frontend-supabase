@@ -10,7 +10,7 @@ export default function Login() {
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session: Session } }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
 
@@ -21,7 +21,7 @@ export default function Login() {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [session]);
 
   if (!session) {
     return (

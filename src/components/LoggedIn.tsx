@@ -36,7 +36,7 @@ export const LoggedIn = () => {
       </div>
       <div className="flex flex-col gap-8">
         <h1 className="text-6xl">You are logged in!</h1>
-        <p>Let's check if you have superpowers!</p>
+        <p>Lets check if you have superpowers!</p>
         <button
           className="rounded p-2 bg-blue-600 font-bold hover:bg-blue-300 hover:text-black"
           onClick={getSecretData}
