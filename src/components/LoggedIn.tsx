@@ -44,6 +44,11 @@ export const LoggedIn = () => {
           A button that makes a GET request to a protected route!
         </button>
       </div>
+      <div className="grid grid-cols-6">
+        {data.map((emoji) => (
+          <div>{emoji}</div>
+        ))}
+      </div>
     </>
   );
 };

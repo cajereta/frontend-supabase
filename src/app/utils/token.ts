@@ -6,6 +6,5 @@ export const getToken = () => {
   const sessionData = JSON.parse(sessionDataString || "null");
   const token = sessionData?.access_token;
 
-  console.log(token);
   return token;
 };
