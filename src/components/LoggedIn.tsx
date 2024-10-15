@@ -5,24 +5,36 @@ import { useState } from "react";
 export const LoggedIn = () => {
   const [data, setData] = useState([]);
 
-  const getSecretData = () => {
+  const getSecretData = async () => {
     const token = getToken();
-    fetch("https://fastapi-supabase-production.up.railway.app/emojis", {
-      method: "GET",
-      headers: {
-        // This is the token that we get from Supabase.
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setData(data));
+    try {
+      const response = await fetch(
+        "https://fastapi-supabase-production.up.railway.app/emojis",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log("Data received:", data);
+      setData(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
-  const handleSignOut = () => {
-    supabase.auth.signOut().then(() => {
-      window.location.reload();
-    });
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.reload();
   };
+
   return (
     <>
       <div className="mb-32">
