@@ -1,34 +1,36 @@
 import { supabase } from "@/app/lib/supabase";
 import { getToken } from "@/app/utils/token";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const LoggedIn = () => {
   const [data, setData] = useState([]);
 
-  const getSecretData = async () => {
-    const token = getToken();
-    try {
-      const response = await fetch(
-        "https://fastapi-supabase-production.up.railway.app/emojis",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+  useEffect(() => {
+    const getSecretData = async () => {
+      const token = getToken();
+      try {
+        const response = await fetch(
+          "https://fastapi-supabase-production.up.railway.app/emojis",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      );
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const data = await response.json();
+        console.log("Data received:", data);
+        setData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-
-      const data = await response.json();
-      console.log("Data received:", data);
-      setData(data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+    };
+  }, []);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -48,12 +50,7 @@ export const LoggedIn = () => {
       <div className="flex flex-col gap-8">
         <h1 className="text-6xl">You are logged in!</h1>
         <p>Lets check if you have superpowers!</p>
-        <button
-          className="rounded p-2 bg-blue-600 font-bold hover:bg-blue-300 hover:text-black"
-          onClick={getSecretData}
-        >
-          A button that makes a GET request to a protected route!
-        </button>
+        This makes a request to a protected route!
       </div>
       <div className="grid grid-cols-6">
         {data && data.map((emoji) => <div key={emoji}>{emoji}</div>)}
